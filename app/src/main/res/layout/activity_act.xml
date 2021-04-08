@@ -243,11 +243,11 @@
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
-            android:layout_width="152dp"
-            android:layout_height="163dp"
-            android:layout_marginTop="448dp"
+            android:layout_width="342dp"
+            android:layout_height="259dp"
+            android:layout_marginTop="392dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.513"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text" />
 

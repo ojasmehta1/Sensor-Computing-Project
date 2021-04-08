@@ -30,6 +30,9 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +49,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
     private SensorManager sensorManager;
     Sensor accelerometer;
     Sensor gyroscope;
+    Sensor magnetometer;
     int pothole_identifier = 0;
 
     Button collect_button;
@@ -60,7 +64,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
     //Read text from file
     StringBuilder text = new StringBuilder();
     TextView accel_x_tw, accel_y_tw, accel_z_tw, gyro_x_tw, gyro_y_tw, gyro_z_tw, milli_tw, latitude_tw, longitude_tw;
-    double acc_X, acc_Y, acc_Z, gyro_x, gyro_y, gyro_z, milli_;
+    double acc_X, acc_Y, acc_Z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z, milli_;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -71,7 +75,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             fos = new FileOutputStream(file);
-            fos.write(("acc_X,acc_Y,acc_Z,gyro_X,gyro_Y,gyro_Z,milli,latitude,longitude,identifier,label" + "\n").getBytes());
+            fos.write(("acc_X,acc_Y,acc_Z,gyro_X,gyro_Y,gyro_Z,mag_x, mag_y, mag_z,milli,latitude,longitude,identifier,label" + "\n").getBytes());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -130,8 +134,11 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(ActivityAct.this, gyroscope, sensorManager.SENSOR_DELAY_NORMAL);
 
-        collect_button = findViewById(R.id.collect_button);
+        // Request gyroscope values
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.registerListener(ActivityAct.this, magnetometer, sensorManager.SENSOR_DELAY_NORMAL);
 
+        collect_button = findViewById(R.id.collect_button);
 
         collect_button.setOnTouchListener(new View.OnTouchListener() {
 
@@ -206,6 +213,13 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
             gyro_z = sensorEvent.values[2];
 
         }
+
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+        {
+            mag_x = sensorEvent.values[0];
+            mag_y = sensorEvent.values[1];
+            mag_z = sensorEvent.values[2];
+        }
         milli_ = System.currentTimeMillis();
     }
 
@@ -238,11 +252,13 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                             + gyro_x + ","
                             + gyro_y + ","
                             + gyro_z + ","
+                            + mag_x + ","
+                            + mag_y + ","
+                            + mag_z + ","
                             + milli_ + ","
                             + latitude + ","
                             + longitude + "," +
                             + pothole_identifier + "\n";
-
 
         accel_x_tw.setText(Double.toString(acc_X));
         accel_y_tw.setText(Double.toString(acc_Y));
@@ -314,6 +330,8 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
             return;
         }
         map.setMyLocationEnabled(true);
+
+        map.addMarker((new MarkerOptions().position((new LatLng(0,0))).title("Test")));
     }
 
     @Override
