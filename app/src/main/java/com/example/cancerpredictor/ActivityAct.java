@@ -40,13 +40,15 @@ import java.util.Date;
 
 public class ActivityAct extends AppCompatActivity implements SensorEventListener, OnMapReadyCallback {
 
-    private MapView mMapView;
+    //private MapView mMapView;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     private SensorManager sensorManager;
     Sensor accelerometer;
     Sensor gyroscope;
     Sensor magnetometer;
     int pothole_identifier = 0;
+    int pothole_type = 0;
+    boolean isPothole = false;
 
     Button little_pothole_button, big_pothole_button, deep_pothole_button, speed_bump_button;
     LocationManager lm;
@@ -61,6 +63,8 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
     StringBuilder text = new StringBuilder();
     TextView accel_x_tw, accel_y_tw, accel_z_tw, gyro_x_tw, gyro_y_tw, gyro_z_tw, milli_tw, latitude_tw, longitude_tw;
     double acc_X, acc_Y, acc_Z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z, milli_;
+
+    private Handler mHandler;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -150,136 +154,167 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         deep_pothole_button = findViewById(R.id.deep_pothole_bt);
         speed_bump_button = findViewById(R.id.speed_bump_bt);
 
+        mHandler = new Handler();
+        mHandler.postDelayed(mAction, 20);
+
         little_pothole_button.setOnTouchListener(new View.OnTouchListener() {
 
-            private Handler mHandler;
+            //private Handler mHandler;
+
 
             @Override public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pothole_identifier++;
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 20);
+                        pothole_type = 1;
+                        isPothole = true;
+                        //if (mHandler != null) return true;
+                        //mHandler = new Handler();
+                        //mHandler.postDelayed(mAction, 100);
                         break;
+
                     case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        mHandler.removeCallbacks(mAction);
-                        mHandler = null;
+                        //if (mHandler == null) return true;
+                        //mHandler.removeCallbacks(mAction);
+                        pothole_type = 0;
+                        isPothole = false;
+                        //mHandler = null;
                         break;
                 }
                 return false;
             }
-
+            /*
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     System.out.println("Performing action...");
-                    writeToCSV(0);
-                    mHandler.postDelayed(this, 20);
-                }
-            };
 
+                    pothole_type = 1;
+                    mHandler.postDelayed(this, 100);
+                }
+            };*/
         });
 
         big_pothole_button.setOnTouchListener(new View.OnTouchListener() {
 
-            private Handler mHandler;
+            //private Handler mHandler;
 
             @Override public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pothole_identifier++;
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 20);
+
+                        pothole_type = 2;
+                        isPothole = true;
+                        //if (mHandler != null) return true;
+                        //mHandler = new Handler();
+                        //mHandler.postDelayed(mAction, 100);
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        mHandler.removeCallbacks(mAction);
-                        mHandler = null;
+                        //if (mHandler == null) return true;
+                        //mHandler.removeCallbacks(mAction);
+                        pothole_type = 0;
+                        isPothole = false;
+                        //mHandler = null;
                         break;
                 }
                 return false;
             }
-
+/*
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     System.out.println("Performing action...");
-                    writeToCSV(1);
-                    mHandler.postDelayed(this, 20);
+
+                    pothole_type = 2;
+                    mHandler.postDelayed(this, 100);
                 }
             };
-
+*/
         });
 
         deep_pothole_button.setOnTouchListener(new View.OnTouchListener() {
 
-            private Handler mHandler;
+            //private Handler mHandler;
 
             @Override public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pothole_identifier++;
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 20);
+
+                        pothole_type = 3;
+                        isPothole = true;
+                        //if (mHandler != null) return true;
+                        //mHandler = new Handler();
+                        //mHandler.postDelayed(mAction, 100);
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        mHandler.removeCallbacks(mAction);
-                        mHandler = null;
+                        //if (mHandler == null) return true;
+                        //mHandler.removeCallbacks(mAction);
+                        pothole_type = 0;
+                        isPothole = false;
+                        //mHandler = null;
                         break;
                 }
                 return false;
             }
-
+            /*
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     System.out.println("Performing action...");
-                    writeToCSV(2);
-                    mHandler.postDelayed(this, 20);
+
+                    pothole_type = 3;
+                    mHandler.postDelayed(this, 100);
+
                 }
-            };
+            };*/
 
         });
 
         speed_bump_button.setOnTouchListener(new View.OnTouchListener() {
 
-            private Handler mHandler;
+            //private Handler mHandler;
 
             @Override public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pothole_identifier++;
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 20);
+
+                        pothole_type = 4;
+                        isPothole = true;
+                        //if (mHandler != null) return true;
+                        //mHandler = new Handler();
+                        //mHandler.postDelayed(mAction, 100);
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        mHandler.removeCallbacks(mAction);
-                        mHandler = null;
+                        //if (mHandler == null) return true;
+                        //mHandler.removeCallbacks(mAction);
+                        pothole_type = 0;
+                        isPothole = false;
+                        //mHandler = null;
                         break;
                 }
                 return false;
             }
 
-            Runnable mAction = new Runnable() {
+            /*Runnable mAction = new Runnable() {
                 @Override public void run() {
                     System.out.println("Performing action...");
-                    writeToCSV(3);
-                    mHandler.postDelayed(this, 20);
+                    pothole_type = 4;
+                    mHandler.postDelayed(this, 100);
+
                 }
-            };
+            };*/
 
         });
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
-        mMapView = (MapView) findViewById(R.id.map_view);
-        mMapView.onCreate(mapViewBundle);
-        mMapView.getMapAsync(this);
+        //mMapView = (MapView) findViewById(R.id.map_view);
+        //mMapView.onCreate(mapViewBundle);
+        //mMapView.getMapAsync(this);
     } 
 
     private static final int REQUEST_WRITE_PERMISSION = 786;
@@ -337,7 +372,15 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         super.onPause();
     }
 
-    public void writeToCSV(int pothole_type) {
+    Runnable mAction = new Runnable() {
+        @Override public void run() {
+            System.out.println("Performing action...");
+            writeToCSV();
+            mHandler.postDelayed(this, 20);
+        }
+    };
+
+    public void writeToCSV() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -360,8 +403,9 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                             + milli_ + ","
                             + latitude + ","
                             + longitude + "," +
-                            + pothole_identifier + "," +
-                            + pothole_type + "\n";;
+                            + (isPothole?pothole_identifier:0.0) + "," +
+                            + pothole_type + ","
+                            + (isPothole?"Yes":"No") + "\n";;
 
         accel_x_tw.setText(Double.toString(acc_X));
         accel_y_tw.setText(Double.toString(acc_Y));
@@ -402,19 +446,19 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
         }
 
-        mMapView.onSaveInstanceState(mapViewBundle);
+        //mMapView.onSaveInstanceState(mapViewBundle);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mMapView.onStart();
+        //mMapView.onStart();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mMapView.onStop();
+        //mMapView.onStop();
     }
 
     @Override
@@ -439,13 +483,13 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
 
     @Override
     public void onDestroy() {
-        mMapView.onDestroy();
+        //mMapView.onDestroy();
         super.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mMapView.onLowMemory();
+        //mMapView.onLowMemory();
     }
 }
