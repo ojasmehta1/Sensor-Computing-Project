@@ -160,7 +160,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                         pothole_identifier++;
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 2);
+                        mHandler.postDelayed(mAction, 20);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -175,7 +175,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                 @Override public void run() {
                     System.out.println("Performing action...");
                     writeToCSV(0);
-                    mHandler.postDelayed(this, 2);
+                    mHandler.postDelayed(this, 20);
                 }
             };
 
@@ -191,7 +191,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                         pothole_identifier++;
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 100);
+                        mHandler.postDelayed(mAction, 20);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -206,7 +206,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                 @Override public void run() {
                     System.out.println("Performing action...");
                     writeToCSV(1);
-                    mHandler.postDelayed(this, 100);
+                    mHandler.postDelayed(this, 20);
                 }
             };
 
@@ -222,7 +222,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                         pothole_identifier++;
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 100);
+                        mHandler.postDelayed(mAction, 20);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -237,7 +237,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                 @Override public void run() {
                     System.out.println("Performing action...");
                     writeToCSV(2);
-                    mHandler.postDelayed(this, 100);
+                    mHandler.postDelayed(this, 20);
                 }
             };
 
@@ -253,7 +253,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                         pothole_identifier++;
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 100);
+                        mHandler.postDelayed(mAction, 20);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -268,7 +268,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                 @Override public void run() {
                     System.out.println("Performing action...");
                     writeToCSV(3);
-                    mHandler.postDelayed(this, 100);
+                    mHandler.postDelayed(this, 20);
                 }
             };
 
