@@ -24,23 +24,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-//import com.opencsv.CSVWriter;
-
-//import java.awt.Button;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import static weka.core.SerializationHelper.read;
-import static weka.core.SerializationHelper.write;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ActivityAct extends AppCompatActivity implements SensorEventListener, OnMapReadyCallback {
 
@@ -52,14 +47,15 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
     Sensor magnetometer;
     int pothole_identifier = 0;
 
-    Button collect_button;
+    Button little_pothole_button, big_pothole_button, deep_pothole_button, speed_bump_button;
     LocationManager lm;
     Location location;
 
     double latitude, longitude;
 
     // for file writing
-    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "data.csv");
+    String fileName = new SimpleDateFormat("yyyyMMddHHmm'.csv'").format(new Date());
+    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
     FileOutputStream fos = null;
     //Read text from file
     StringBuilder text = new StringBuilder();
@@ -75,7 +71,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             fos = new FileOutputStream(file);
-            fos.write(("acc_X,acc_Y,acc_Z,gyro_X,gyro_Y,gyro_Z,mag_x, mag_y, mag_z,milli,latitude,longitude,identifier,label" + "\n").getBytes());
+            fos.write(("acc_X,acc_Y,acc_Z,gyro_X,gyro_Y,gyro_Z,mag_x, mag_y, mag_z,milli,latitude,longitude,counter,pothole type,label" + "\n").getBytes());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -134,13 +130,16 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         sensorManager.registerListener(ActivityAct.this, gyroscope, sensorManager.SENSOR_DELAY_NORMAL);
 
-        // Request gyroscope values
+        // Request magnetometer values
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(ActivityAct.this, magnetometer, sensorManager.SENSOR_DELAY_NORMAL);
 
-        collect_button = findViewById(R.id.collect_button);
+        little_pothole_button = findViewById(R.id.little_pothole_bt);
+        big_pothole_button = findViewById(R.id.big_pothole_bt);
+        deep_pothole_button = findViewById(R.id.deep_pothole_bt);
+        speed_bump_button = findViewById(R.id.speed_bump_bt);
 
-        collect_button.setOnTouchListener(new View.OnTouchListener() {
+        little_pothole_button.setOnTouchListener(new View.OnTouchListener() {
 
             private Handler mHandler;
 
@@ -164,7 +163,100 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     System.out.println("Performing action...");
-                    writeToCSV();
+                    writeToCSV(0);
+                    mHandler.postDelayed(this, 100);
+                }
+            };
+
+        });
+
+        big_pothole_button.setOnTouchListener(new View.OnTouchListener() {
+
+            private Handler mHandler;
+
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        pothole_identifier++;
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
+            }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    System.out.println("Performing action...");
+                    writeToCSV(1);
+                    mHandler.postDelayed(this, 100);
+                }
+            };
+
+        });
+
+        deep_pothole_button.setOnTouchListener(new View.OnTouchListener() {
+
+            private Handler mHandler;
+
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        pothole_identifier++;
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
+            }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    System.out.println("Performing action...");
+                    writeToCSV(2);
+                    mHandler.postDelayed(this, 100);
+                }
+            };
+
+        });
+
+        speed_bump_button.setOnTouchListener(new View.OnTouchListener() {
+
+            private Handler mHandler;
+
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        pothole_identifier++;
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
+            }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    System.out.println("Performing action...");
+                    writeToCSV(3);
                     mHandler.postDelayed(this, 100);
                 }
             };
@@ -218,7 +310,6 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         {
             mag_x = sensorEvent.values[0];
             mag_y = sensorEvent.values[1];
-            mag_z = sensorEvent.values[2];
         }
         milli_ = System.currentTimeMillis();
     }
@@ -235,7 +326,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         super.onPause();
     }
 
-    public void writeToCSV() {
+    public void writeToCSV(int pothole_type) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -258,7 +349,8 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                             + milli_ + ","
                             + latitude + ","
                             + longitude + "," +
-                            + pothole_identifier + "\n";
+                            + pothole_identifier + "," +
+                            + pothole_type + "\n";;
 
         accel_x_tw.setText(Double.toString(acc_X));
         accel_y_tw.setText(Double.toString(acc_Y));
