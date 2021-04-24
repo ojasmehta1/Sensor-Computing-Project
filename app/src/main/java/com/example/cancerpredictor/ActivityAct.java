@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -53,9 +54,8 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
 
     double latitude, longitude;
 
-    // for file writing
     String fileName = new SimpleDateFormat("yyyyMMddHHmm'.csv'").format(new Date());
-    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
+    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/pothole_data", fileName);
     FileOutputStream fos = null;
     //Read text from file
     StringBuilder text = new StringBuilder();
@@ -77,6 +77,17 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
         } catch (IOException e) {
             e.printStackTrace();
         }
+        File folder = new File(Environment.getExternalStorageDirectory() + "/pothole_data");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            // Do something on success
+        } else {
+            // Do something else on failure
+        }
+
         accel_x_tw = findViewById(R.id.acc_x);
         accel_y_tw = findViewById(R.id.acc_y);
         accel_z_tw = findViewById(R.id.acc_z);
@@ -149,7 +160,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                         pothole_identifier++;
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 100);
+                        mHandler.postDelayed(mAction, 2);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -164,7 +175,7 @@ public class ActivityAct extends AppCompatActivity implements SensorEventListene
                 @Override public void run() {
                     System.out.println("Performing action...");
                     writeToCSV(0);
-                    mHandler.postDelayed(this, 100);
+                    mHandler.postDelayed(this, 2);
                 }
             };
 

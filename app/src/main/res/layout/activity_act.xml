@@ -34,40 +34,40 @@
 
         <Button
             android:id="@+id/deep_pothole_bt"
-            android:layout_width="117dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="660dp"
+            android:layout_width="147dp"
+            android:layout_height="114dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="600dp"
             android:text="Deep POTHOLE"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/big_pothole_bt"
-            android:layout_width="112dp"
-            android:layout_height="61dp"
-            android:layout_marginStart="264dp"
-            android:layout_marginTop="520dp"
+            android:layout_width="154dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="424dp"
             android:text="Big Pothole"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/little_pothole_bt"
-            android:layout_width="133dp"
-            android:layout_height="57dp"
+            android:layout_width="147dp"
+            android:layout_height="108dp"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="520dp"
+            android:layout_marginTop="424dp"
             android:text="Little Pothole"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/speed_bump_bt"
-            android:layout_width="112dp"
-            android:layout_height="61dp"
-            android:layout_marginStart="264dp"
-            android:layout_marginTop="660dp"
+            android:layout_width="154dp"
+            android:layout_height="105dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="600dp"
             android:text="Speed Bump"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
